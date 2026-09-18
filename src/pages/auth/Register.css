@@ -1,0 +1,168 @@
+/* CampusHub Clean & Minimal Register Styles */
+
+.register-content {
+  --background: #f8fafc;
+  --color: #0f172a;
+}
+
+.register-wrapper {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+  border: 1px solid #e2e8f0;
+}
+
+/* Header */
+.register-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.register-icon-circle {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 12px;
+  border-radius: 14px;
+  background: #eff6ff;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.register-title {
+  margin: 0 0 4px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.register-subtitle {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+/* Error Banner */
+.register-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  font-size: 0.84rem;
+}
+
+.register-error-banner ion-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* Form */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --highlight-color-focused: #3b82f6;
+}
+
+.register-item ion-input {
+  --border-radius: 10px;
+  --border-color: #cbd5e1;
+  --border-width: 1px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  font-size: 0.92rem;
+}
+
+.register-item ion-input:focus-within {
+  --border-color: #3b82f6;
+}
+
+.password-toggle-btn {
+  --color: #94a3b8;
+  margin: 0;
+}
+
+.field-error {
+  color: #ef4444;
+  font-size: 0.76rem;
+  font-weight: 500;
+  margin-top: 4px;
+  padding-left: 2px;
+}
+
+/* Submit Button */
+.register-submit-btn {
+  margin-top: 8px;
+  margin-bottom: 4px;
+  --background: #3b82f6;
+  --border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  height: 44px;
+  text-transform: none;
+}
+
+.register-submit-btn:hover:not([disabled]) {
+  --background: #2563eb;
+}
+
+/* Footer Link */
+.register-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.register-login-link {
+  --color: #3b82f6;
+  --padding-start: 2px;
+  --padding-end: 2px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: none;
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 28px 20px;
+    border-radius: 16px;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+  }
+}

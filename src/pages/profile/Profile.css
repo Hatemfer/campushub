@@ -1,0 +1,284 @@
+/* Profile.css - Modern Glassmorphism & CampusHub Theme */
+
+.profile-content {
+  --background: var(--ion-background-color, #f8fafc);
+}
+
+.profile-container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding-bottom: 48px;
+}
+
+/* Hero Profile Card */
+.profile-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--ion-card-background, #ffffff);
+  border: 1px solid var(--ion-color-step-150, #e2e8f0);
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 32px;
+}
+
+.profile-avatar-circle {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #4f46e5 100%);
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
+  letter-spacing: 0.05em;
+}
+
+.profile-hero-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.profile-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--ion-color-step-900, #0f172a);
+  margin: 0;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-edit-name-btn {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  height: 28px;
+  color: var(--ion-color-step-600, #64748b);
+  transition: color 0.2s ease;
+}
+
+.profile-edit-name-btn:hover {
+  color: var(--ion-color-primary, #2563eb);
+}
+
+.profile-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.profile-role-badge,
+.profile-verified-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.profile-meta-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--ion-color-step-600, #64748b);
+}
+
+.profile-meta-item ion-icon {
+  font-size: 1.1rem;
+  color: var(--ion-color-step-500, #94a3b8);
+}
+
+/* Section Titles */
+.profile-section-title {
+  margin: 24px 4px 12px 4px;
+}
+
+.profile-section-title h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ion-color-step-800, #1e293b);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Stats Grid */
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.profile-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--ion-card-background, #ffffff);
+  border: 1px solid var(--ion-color-step-150, #e2e8f0);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.profile-stat-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--ion-color-primary, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.profile-stat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-stat-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ion-color-step-500, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.profile-stat-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--ion-color-step-900, #0f172a);
+}
+
+.profile-stat-action-btn {
+  --border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Settings & Security Card */
+.profile-settings-card {
+  background: var(--ion-card-background, #ffffff);
+  border: 1px solid var(--ion-color-step-150, #e2e8f0);
+  border-radius: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.profile-action-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--ion-color-step-100, #f1f5f9);
+}
+
+.profile-action-item:last-child {
+  border-bottom: none;
+}
+
+.action-item-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--ion-color-step-100, #f1f5f9);
+  color: var(--ion-color-step-700, #475569);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.action-item-icon.danger-icon {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--ion-color-danger, #ef4444);
+}
+
+.action-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.action-item-text h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ion-color-step-900, #0f172a);
+  margin: 0 0 4px 0;
+}
+
+.action-item-text p {
+  font-size: 0.85rem;
+  color: var(--ion-color-step-500, #64748b);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .profile-hero-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 20px;
+  }
+
+  .profile-name-row {
+    justify-content: center;
+  }
+
+  .profile-badges-row {
+    justify-content: center;
+  }
+
+  .profile-meta-details {
+    align-items: center;
+  }
+
+  .profile-action-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .profile-action-item ion-button {
+    width: 100%;
+  }
+
+  .profile-stat-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .profile-stat-card ion-button {
+    width: 100%;
+  }
+}

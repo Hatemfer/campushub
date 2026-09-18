@@ -1,0 +1,140 @@
+rules_version = '2';
+
+/**
+ * CampusHub Firestore Security Rules
+ *
+ * Educational & Architectural Overview (University Project):
+ * 1. Principle of Least Privilege: Every document access is denied by default unless explicitly granted.
+ * 2. Identity Verification: All access checks verify request.auth != null to block unauthenticated requests.
+ * 3. Document ID Isolation: Profiles are stored at `users/{userId}` where `userId` matches `request.auth.uid`.
+ * 4. Role Immutability: Students can create their profile with role 'student' and update profile fields (name/email),
+ *    but cannot change their own role to 'admin' (preventing vertical privilege escalation).
+ * 5. Administrative Oversight: Administrators can view all user profiles, manage accounts, and assign roles.
+ */
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helper Functions ---
+
+    // Verifies whether the incoming request is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Verifies whether the authenticated user owns the document in question
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Retrieves the Firestore document for the requesting user to read their role
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // Checks if the authenticated user has an 'admin' role stored in their Firestore document
+    function isAdmin() {
+      return isAuthenticated() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        getUserData().role == 'admin';
+    }
+
+    // --- Collection Rules: Users (`users/{userId}`) ---
+
+    match /users/{userId} {
+
+      // READ:
+      // - Authenticated users can read their own profile document.
+      // - Admins can read any user profile.
+      // - Unauthenticated users cannot read any user profile.
+      allow read: if isOwner(userId) || isAdmin();
+
+      // CREATE:
+      // - Unauthenticated users cannot create profiles.
+      // - Authenticated users can only create their own profile (request.auth.uid == userId).
+      // - Standard registration MUST set the role to 'student' (prevents self-assigning 'admin').
+      // - Existing admins may also create user records.
+      allow create: if isAuthenticated() && (
+        (isOwner(userId) && request.resource.data.role == 'student') ||
+        isAdmin()
+      );
+
+      // UPDATE:
+      // - Unauthenticated users cannot update profiles.
+      // - Students can update their profile (e.g. name), but the role field MUST remain unchanged
+      //   (request.resource.data.role == resource.data.role).
+      // - Admins can update any profile and are authorized to manage user roles.
+      allow update: if isAuthenticated() && (
+        (isOwner(userId) && request.resource.data.role == resource.data.role) ||
+        isAdmin()
+      );
+
+      // DELETE:
+      // - Students cannot delete their own profile.
+      // - Only administrators are permitted to delete user profiles.
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection Rules: Events (`events/{eventId}`) ---
+
+    match /events/{eventId} {
+
+      // READ:
+      // Any authenticated user (student or administrator) can browse campus events.
+      // Unauthenticated users cannot view event listings.
+      allow read: if isAuthenticated();
+
+      // CREATE:
+      // - Only administrators are permitted to publish campus events.
+      // - The creator ID must match the administrator's UID.
+      // - Initial attendee count must be 0.
+      // - Capacity must be greater than 0.
+      allow create: if isAdmin() &&
+        request.resource.data.createdBy == request.auth.uid &&
+        request.resource.data.registeredCount == 0 &&
+        request.resource.data.capacity > 0;
+
+      // UPDATE & DELETE:
+      // - Administrators can update or delete any campus event.
+      // - Authenticated students can update ONLY registeredCount during RSVP/cancellation transactions.
+      allow update: if isAdmin() || (
+        isAuthenticated() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['registeredCount'])
+      );
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection Rules: Registrations (`registrations/{registrationId}`) ---
+
+    match /registrations/{registrationId} {
+
+      // READ:
+      // - Authenticated students can read their own registration records.
+      // - Administrators can inspect all registrations for attendee tracking.
+      allow read: if isAuthenticated() && (
+        resource == null ||
+        resource.data.userId == request.auth.uid ||
+        isAdmin()
+      );
+
+      // CREATE:
+      // - Only authenticated students can register for events.
+      // - Must set userId to their own authenticated UID.
+      // - Deterministic document ID must match `{eventId}_{userId}`.
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid &&
+        registrationId == request.resource.data.eventId + '_' + request.auth.uid;
+
+      // DELETE:
+      // - Students can cancel their own registration.
+      // - Administrators can remove registrations if needed.
+      allow delete: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+    }
+
+    // Default catch-all: Deny all operations on unmodeled collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

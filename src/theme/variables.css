@@ -1,0 +1,135 @@
+/**
+ * CampusHub Design System & Theme Variables
+ * 
+ * Palette: Modern Indigo & Slate
+ * Typography: Plus Jakarta Sans
+ * Styles: Clean micro-interactions, subtle glassmorphism, responsive elevation
+ */
+
+:root {
+  /* Typography */
+  --ion-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Primary Brand Color: Modern Indigo (#4f46e5) */
+  --ion-color-primary: #4f46e5;
+  --ion-color-primary-rgb: 79, 70, 229;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4338ca;
+  --ion-color-primary-tint: #6366f1;
+
+  /* Secondary: Bright Sky Blue (#0ea5e9) */
+  --ion-color-secondary: #0ea5e9;
+  --ion-color-secondary-rgb: 14, 165, 233;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #0284c7;
+  --ion-color-secondary-tint: #38bdf8;
+
+  /* Tertiary: Royal Violet (#8b5cf6) */
+  --ion-color-tertiary: #8b5cf6;
+  --ion-color-tertiary-rgb: 139, 92, 246;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #7c3aed;
+  --ion-color-tertiary-tint: #a78bfa;
+
+  /* Success: Emerald (#10b981) */
+  --ion-color-success: #10b981;
+  --ion-color-success-rgb: 16, 185, 129;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #059669;
+  --ion-color-success-tint: #34d399;
+
+  /* Warning: Warm Amber (#f59e0b) */
+  --ion-color-warning: #f59e0b;
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #d97706;
+  --ion-color-warning-tint: #fbbf24;
+
+  /* Danger: Crimson Rose (#ef4444) */
+  --ion-color-danger: #ef4444;
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #dc2626;
+  --ion-color-danger-tint: #f87171;
+
+  /* Dark & Light Neutrals */
+  --ion-color-dark: #0f172a;
+  --ion-color-dark-rgb: 15, 23, 42;
+  --ion-color-dark-contrast: #ffffff;
+
+  --ion-color-medium: #64748b;
+  --ion-color-medium-rgb: 100, 116, 139;
+  --ion-color-medium-contrast: #ffffff;
+
+  --ion-color-light: #f8fafc;
+  --ion-color-light-rgb: 248, 250, 252;
+  --ion-color-light-contrast: #0f172a;
+
+  /* Light Theme Surface Backgrounds */
+  --ion-background-color: #f8fafc;
+  --ion-background-color-rgb: 248, 250, 252;
+  --ion-text-color: #0f172a;
+  --ion-text-color-rgb: 15, 23, 42;
+
+  --ion-card-background: #ffffff;
+  --ion-item-background: #ffffff;
+  --ion-toolbar-background: #ffffff;
+  --ion-tab-bar-background: #ffffff;
+
+  /* Custom App Variables */
+  --ch-gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #2563eb 100%);
+  --ch-gradient-hero: linear-gradient(135deg, #4338ca 0%, #6366f1 50%, #3b82f6 100%);
+  --ch-gradient-accent: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+  --ch-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ch-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --ch-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --ch-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --ch-shadow-glow: 0 12px 24px -4px rgba(79, 70, 229, 0.35);
+  --ch-border-subtle: #e2e8f0;
+}
+
+/* Dark Mode Palette (System / Class) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #0b0f19;
+    --ion-background-color-rgb: 11, 15, 25;
+    --ion-text-color: #f1f5f9;
+    --ion-text-color-rgb: 241, 245, 249;
+
+    --ion-card-background: #111827;
+    --ion-item-background: #111827;
+    --ion-toolbar-background: #0f172a;
+    --ion-tab-bar-background: #0f172a;
+
+    --ion-color-dark: #f8fafc;
+    --ion-color-medium: #94a3b8;
+    --ion-color-light: #1e293b;
+
+    --ch-border-subtle: #1e293b;
+    --ch-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --ch-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Global Smooth Transitions */
+* {
+  box-sizing: border-box;
+}
+
+ion-button {
+  --border-radius: 10px;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+ion-card {
+  border-radius: 16px;
+  box-shadow: var(--ch-shadow-md);
+}

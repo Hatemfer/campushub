@@ -1,0 +1,124 @@
+.campus-event-card {
+  margin: 16px 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--ion-color-step-100, #edf2f7);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  background: var(--ion-card-background, #ffffff);
+}
+
+.campus-event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.event-card-banner {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: var(--ion-color-step-100, #f7fafc);
+}
+
+.event-card-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.event-category-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.event-capacity-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.event-capacity-tag ion-icon {
+  font-size: 1rem;
+}
+
+.event-capacity-tag.capacity-available {
+  background: rgba(45, 211, 111, 0.12);
+  color: #1b8744;
+}
+
+.event-capacity-tag.capacity-full {
+  background: rgba(235, 68, 90, 0.12);
+  color: #c52236;
+}
+
+.event-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ion-text-color, #1a202c);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.event-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--ion-color-step-600, #718096);
+  margin-top: 6px;
+}
+
+.event-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.event-meta-item ion-icon {
+  font-size: 1rem;
+  color: var(--ion-color-primary, #3880ff);
+  flex-shrink: 0;
+}
+
+.event-card-description {
+  color: var(--ion-color-step-700, #4a5568);
+  font-size: 0.925rem;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.event-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--ion-color-step-100, #edf2f7);
+  padding-top: 12px;
+}
+
+.event-rsvp-btn {
+  --border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0;
+  transition: all 0.2s ease;
+}
+
+.event-rsvp-btn.btn-registered {
+  --border-width: 2px;
+}
+
