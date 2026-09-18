@@ -451,7 +451,7 @@ const Home: React.FC = () => {
                   data-testid="empty-state-admin-manage-btn"
                 >
                   <IonIcon slot="start" icon={sparklesOutline} />
-                  Seed Demo Events (Admin Portal)
+                  Create Events (Admin Portal)
                 </IonButton>
               ) : null}
             </div>

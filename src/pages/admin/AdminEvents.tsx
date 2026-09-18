@@ -28,7 +28,6 @@ import {
   peopleCircleOutline,
   arrowBackOutline,
   alertCircleOutline,
-  sparklesOutline,
 } from 'ionicons/icons';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -36,7 +35,6 @@ import {
   createEvent,
   updateEvent,
   deleteEvent,
-  seedSampleEvents,
 } from '../../services/event.service';
 import { getEventAttendees } from '../../services/registration.service';
 import { getCategoryColor, formatEventDate } from '../../components/events/EventCard';
@@ -96,10 +94,6 @@ const AdminEvents: React.FC = () => {
   const [selectedEventForAttendees, setSelectedEventForAttendees] = useState<CampusEvent | null>(null);
   const [attendees, setAttendees] = useState<EventRegistration[]>([]);
   const [loadingAttendees, setLoadingAttendees] = useState<boolean>(false);
-
-  // Demo Seeding State
-  const [showSeedAlert, setShowSeedAlert] = useState<boolean>(false);
-  const [seedingLoading, setSeedingLoading] = useState<boolean>(false);
 
   /**
    * Fetches the complete event catalog.
@@ -267,25 +261,6 @@ const AdminEvents: React.FC = () => {
     }
   };
 
-  /**
-   * Seeds 5 realistic sample university events into Firestore.
-   */
-  const handleConfirmSeed = async () => {
-    if (!firebaseUser?.uid) return;
-    setSeedingLoading(true);
-    try {
-      await seedSampleEvents(firebaseUser.uid);
-      await loadEvents();
-      setToastMessage('5 demo university events created successfully!');
-    } catch (err) {
-      console.error('Failed to seed events:', err);
-      const msg = err instanceof Error ? err.message : 'Failed to seed sample events.';
-      setToastMessage(msg);
-    } finally {
-      setSeedingLoading(false);
-    }
-  };
-
   // Dashboard Stats Calculations
   const totalRegistrations = events.reduce((acc, curr) => acc + (curr.registeredCount || 0), 0);
   const fullEventsCount = events.filter((e) => e.registeredCount >= e.capacity).length;
@@ -302,17 +277,6 @@ const AdminEvents: React.FC = () => {
           </IonButtons>
           <IonTitle>Admin Event Portal</IonTitle>
           <IonButtons slot="end">
-            <IonButton
-              fill="outline"
-              color="tertiary"
-              onClick={() => setShowSeedAlert(true)}
-              data-testid="admin-seed-events-btn"
-              disabled={seedingLoading}
-              style={{ marginRight: '8px' }}
-            >
-              <IonIcon slot="start" icon={sparklesOutline} />
-              Seed Demo Events
-            </IonButton>
             <IonButton
               fill="solid"
               color="primary"
@@ -663,27 +627,6 @@ const AdminEvents: React.FC = () => {
             },
           ]}
           data-testid="admin-delete-alert"
-        />
-
-        {/* Seed Sample Events Alert */}
-        <IonAlert
-          isOpen={showSeedAlert}
-          onDidDismiss={() => setShowSeedAlert(false)}
-          header="Seed Demo Events"
-          message="This will publish 5 realistic university demo events (Career Fair, Robotics Hackathon, Soccer Championship, Quantum Seminar, Arts Festival) with images, dates, and attendee capacities into Firestore. Continue?"
-          buttons={[
-            {
-              text: 'Cancel',
-              role: 'cancel',
-            },
-            {
-              text: 'Seed 5 Events',
-              handler: () => {
-                handleConfirmSeed();
-              },
-            },
-          ]}
-          data-testid="admin-seed-alert"
         />
 
         {/* Toast Feedback */}
