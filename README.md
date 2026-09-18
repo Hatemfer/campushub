@@ -2,7 +2,8 @@
 
 > **Mini-Projet Académique — Module "IONIC"**  
 > **Technologies** : Ionic Framework v9 + React 19 + TypeScript + Vite + Firebase v12 (Auth & Cloud Firestore)  
-> **Architecture** : Architecture en couches (Services, Contextes, Pages, Composants) + RBAC (Role-Based Access Control)
+> **Architecture** : Architecture en couches (Services, Contextes, Pages, Composants) + RBAC (Role-Based Access Control)  
+> 🌐 **Application en direct** : [https://campushub-9d0e9.web.app](https://campushub-9d0e9.web.app)
 
 ---
 
