@@ -248,7 +248,14 @@ const EventDetails: React.FC = () => {
           {/* Banner */}
           <div className="event-details-banner">
             {event.imageUrl ? (
-              <img src={event.imageUrl} alt={event.title} />
+              <img
+                src={event.imageUrl}
+                alt={event.title}
+                onError={(e) => {
+                  const parent = (e.target as HTMLElement).parentElement;
+                  if (parent) parent.style.display = 'none';
+                }}
+              />
             ) : (
               <div className="event-details-banner-fallback">
                 <IonIcon icon={imageOutline} />

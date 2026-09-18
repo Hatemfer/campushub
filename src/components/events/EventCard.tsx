@@ -98,7 +98,15 @@ export const EventCard: React.FC<EventCardProps> = ({
     >
       {event.imageUrl && (
         <div className="event-card-banner">
-          <img src={event.imageUrl} alt={event.title} loading="lazy" />
+          <img
+            src={event.imageUrl}
+            alt={event.title}
+            loading="lazy"
+            onError={(e) => {
+              const parent = (e.target as HTMLElement).parentElement;
+              if (parent) parent.style.display = 'none';
+            }}
+          />
         </div>
       )}
 
