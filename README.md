@@ -41,7 +41,7 @@
               ───────────────                     ─────────────
       • Consulter les événements          • Tout ce que fait l'étudiant
       • Recherche & filtres par track     • Accès Portail Admin (/admin/events)
-      • Réserver sa place (RSVP)          • Tableau de bord KPI temps réel
+      • S'inscrire à un événement         • Tableau de bord KPI temps réel
       • Annuler son inscription           • Créer de nouveaux événements
       • Télécharger l'iCal (.ics)         • Modifier les événements
       • Consulter "Mes Inscriptions"      • Supprimer un événement
@@ -56,7 +56,7 @@ Les règles serveur dans [`firestore.rules`](file:///Users/motdepassetest/Deskto
 1. **Principe du Moindre Privilège** : Tout accès non authentifié est strictement refusé.
 2. **Isolation des Utilisateurs** : Un utilisateur ne peut écrire que dans son document `users/{userId}`.
 3. **Immutabilité du Rôle Étudiant** : Un étudiant ne peut pas modifier son propre champ `role` (empêchant l'élévation verticale de privilège).
-4. **Transactions Atomiques Sécurisées** : Lors d'un RSVP, les étudiants peuvent incrémenter ou décrémenter **uniquement** le compteur `registeredCount` de l'événement sans altérer les autres informations (date, lieu, organisateur).
+4. **Transactions Atomiques Sécurisées** : Lors d'une inscription ou d'une annulation, les étudiants peuvent incrémenter ou décrémenter **uniquement** le compteur `registeredCount` de l'événement sans altérer les autres informations (date, lieu, organisateur).
 
 ---
 
@@ -68,13 +68,13 @@ Les règles serveur dans [`firestore.rules`](file:///Users/motdepassetest/Deskto
 
 ### 1. Cloner le projet et installer les dépendances
 ```bash
-git clone <url-du-depot>
+git clone https://github.com/Hatemfer/campushub.git
 cd campushub
 npm install
 ```
 
 ### 2. Configuration des Variables d'Environnement
-Créer ou vérifier le fichier `.env.local` à la racine :
+Créer ou vérifier le fichier `.env.local` à la racine (voir modèle `.env.example`) :
 ```env
 VITE_FIREBASE_API_KEY=votre_api_key
 VITE_FIREBASE_AUTH_DOMAIN=campushub-9d0e9.firebaseapp.com
@@ -92,28 +92,19 @@ L'application s'ouvre sur : `http://localhost:5174` (ou `http://localhost:8100`)
 
 ---
 
-## 🧪 6. Tests Automatisés & Qualité du Code
+## 🔍 6. Qualité du Code & Compilation
 
-Le projet dispose d'une couverture complète par tests unitaires et d'intégration avec **Vitest** et **React Testing Library** :
+Le projet respecte les normes strictes de typage TypeScript et de linting ESLint :
 
 ```bash
-# Exécuter les 110 tests unitaires
-npm run test.unit -- --run
+# Vérifier la qualité du code et les règles ESLint
+npm run lint
 
-# Tester la compilation TypeScript et le bundle de production
+# Compiler le bundle de production et valider les types TypeScript
 npm run build
 ```
 
 **Résultats de validation** :
-- **15 suites de tests / 110 tests unitaires réussis à 100%**.
+- **0 erreur ESLint**.
 - **0 erreur TypeScript** en mode strict.
-
----
-
-## 🌟 7. Données de Démonstration (Seed Data)
-
-Pour faciliter la validation par l'enseignant :
-1. Connectez-vous avec un compte administrateur.
-2. Cliquez sur **"Admin Portal"** en haut à droite.
-3. Cliquez sur le bouton violet **"Seed Demo Events"**.
-4. 5 événements universitaires complets (Forum Carrières, Hackathon Robotique, Tournoi de Foot, Séminaire Quantique, Festival des Arts) seront instantanément injectés dans Firestore avec leurs bannières Unsplash, capacités et dates futures.
+- **Bundle optimisé** prêt pour le déploiement.
