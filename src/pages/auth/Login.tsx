@@ -54,7 +54,20 @@ export const formatLoginError = (error: unknown): string => {
 };
 
 /**
- * Modern Split-Layout Login Component with 1-Click Demo Credentials
+ * Page de Connexion (Login) de CampusHub
+ * 
+ * Architecture & Fonctionnement :
+ * 1. Authentification Firebase :
+ *    Délègue l'authentification à `auth.service.loginUser()` via le hook `useAuth()`.
+ *    Firebase gère la session utilisateur, les tokens JWT et la persistance locale.
+ * 
+ * 2. Synchronisation du Profil Firestore :
+ *    Dès validation de l'identité, `AuthContext` charge automatiquement le profil Firestore
+ *    associé à l'UID pour en déduire les droits et rôles ('student' ou 'admin').
+ * 
+ * 3. Validation Client & UX :
+ *    Vérifie la validité des champs avant d'émettre l'appel API réseau pour une
+ *    meilleure réactivité et des messages d'erreurs traduits et explicites.
  */
 const Login: React.FC = () => {
   const navigate = useNavigate();

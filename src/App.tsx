@@ -41,6 +41,22 @@ import './theme/variables.css';
 
 setupIonicReact();
 
+/**
+ * Composant racine de l'application CampusHub.
+ * 
+ * Architecture & Décisions Techniques :
+ * 1. IonReactRouter & IonRouterOutlet :
+ *    Assurent la gestion native des transitions de pages et de l'historique de navigation Ionic.
+ * 
+ * 2. Contrôle d'accès basé sur les rôles (RBAC) via <ProtectedRoute> :
+ *    - Routes publiques (/login, /register) : Accessibles sans authentification préalable.
+ *    - Routes protégées Étudiant (/home, /profile, /events/:id) : Requiert un token Firebase valide.
+ *    - Routes protégées Administrateur (/admin/events) : Vérifie strictement le rôle 'admin'
+ *      résolu de façon asynchrone depuis le document Firestore de l'utilisateur.
+ * 
+ * 3. Redirection par défaut :
+ *    La racine '/' redirige vers '/home', qui redirigera vers '/login' si l'utilisateur est non authentifié.
+ */
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
