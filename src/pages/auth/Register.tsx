@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import {
   IonPage,
   IonContent,
-  IonItem,
-  IonInput,
   IonButton,
   IonIcon,
   IonSpinner,
 } from '@ionic/react';
 import {
   schoolOutline,
+  personOutline,
+  mailOutline,
+  lockClosedOutline,
   eyeOutline,
   eyeOffOutline,
   alertCircleOutline,
@@ -48,21 +49,21 @@ export interface FormErrors {
 /**
  * Converts low-level Firebase Authentication error codes into human-friendly messages.
  */
-export const formatAuthError = (error: unknown): string => {
+export const formatFirebaseError = (error: unknown): string => {
   if (!error) return '';
   const message = error instanceof Error ? error.message : String(error);
 
   if (message.includes('auth/email-already-in-use')) {
-    return 'Un compte existe déjà avec cette adresse email. Veuillez vous connecter.';
+    return 'Cette adresse email est déjà associée à un compte existant.';
   }
   if (message.includes('auth/invalid-email')) {
-    return 'Veuillez saisir une adresse email valide.';
+    return 'Le format de l’adresse email est invalide.';
   }
   if (message.includes('auth/weak-password')) {
     return 'Le mot de passe doit comporter au moins 6 caractères.';
   }
   if (message.includes('auth/network-request-failed')) {
-    return 'Erreur de connexion réseau. Veuillez vérifier votre connexion internet.';
+    return 'Connexion au serveur impossible. Vérifiez votre connexion Internet.';
   }
   if (message.includes('auth/too-many-requests')) {
     return 'Trop de requêtes. Veuillez patienter un instant.';
@@ -96,7 +97,7 @@ const Register: React.FC = () => {
     if (!trimmedName) {
       nextErrors.name = 'Le nom complet est requis.';
     } else if (trimmedName.length < 2) {
-      nextErrors.name = 'Le nom doit comporter au moins 2 caractères.';
+      nextErrors.name = 'Le nom doit contenir au moins 2 caractères.';
     }
 
     const trimmedEmail = email.trim();
@@ -104,13 +105,13 @@ const Register: React.FC = () => {
     if (!trimmedEmail) {
       nextErrors.email = 'L’adresse email est requise.';
     } else if (!emailRegex.test(trimmedEmail)) {
-      nextErrors.email = 'Veuillez entrer une adresse email valide.';
+      nextErrors.email = 'Veuillez saisir une adresse email valide.';
     }
 
     if (!password) {
       nextErrors.password = 'Le mot de passe est requis.';
     } else if (password.length < 6) {
-      nextErrors.password = 'Le mot de passe doit comporter au moins 6 caractères.';
+      nextErrors.password = 'Le mot de passe doit contenir au moins 6 caractères.';
     }
 
     if (!confirmPassword) {
@@ -137,9 +138,9 @@ const Register: React.FC = () => {
       const user = await register(email.trim(), password);
       await createUserProfile(user.uid, name.trim(), email.trim());
       navigate('/home');
-    } catch (err) {
+    } catch (err: unknown) {
       setErrors({
-        general: formatAuthError(err),
+        general: formatFirebaseError(err),
       });
     } finally {
       setIsSubmitting(false);
@@ -171,98 +172,106 @@ const Register: React.FC = () => {
             {/* Registration Form */}
             <form onSubmit={handleRegister} className="register-form" noValidate data-testid="register-form">
               {/* Full Name */}
-              <div className="form-field">
-                <IonItem className="register-item" lines="none">
-                  <IonInput
-                    fill="outline"
-                    label="Nom et Prénom"
-                    labelPlacement="floating"
+              <div className="form-group">
+                <label className="form-label" htmlFor="register-name">
+                  Nom et Prénom
+                </label>
+                <div className={`input-container ${errors.name ? 'input-error' : ''}`}>
+                  <IonIcon icon={personOutline} className="input-leading-icon" />
+                  <input
+                    id="register-name"
                     type="text"
+                    className="custom-input"
                     value={name}
                     placeholder="ex. Alexandre Martin"
                     disabled={isSubmitting}
-                    autocomplete="name"
+                    autoComplete="name"
                     data-testid="register-name-input"
-                    onIonInput={(e) => setName(e.detail.value ?? '')}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                </IonItem>
+                </div>
                 {errors.name && <span className="field-error">{errors.name}</span>}
               </div>
 
               {/* Email Address */}
-              <div className="form-field">
-                <IonItem className="register-item" lines="none">
-                  <IonInput
-                    fill="outline"
-                    label="Adresse Email"
-                    labelPlacement="floating"
+              <div className="form-group">
+                <label className="form-label" htmlFor="register-email">
+                  Adresse Email
+                </label>
+                <div className={`input-container ${errors.email ? 'input-error' : ''}`}>
+                  <IonIcon icon={mailOutline} className="input-leading-icon" />
+                  <input
+                    id="register-email"
                     type="email"
+                    className="custom-input"
                     value={email}
                     placeholder="etudiant@campus.edu"
                     disabled={isSubmitting}
-                    autocomplete="email"
+                    autoComplete="email"
                     data-testid="register-email-input"
-                    onIonInput={(e) => setEmail(e.detail.value ?? '')}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                </IonItem>
+                </div>
                 {errors.email && <span className="field-error">{errors.email}</span>}
               </div>
 
               {/* Password */}
-              <div className="form-field">
-                <IonItem className="register-item" lines="none">
-                  <IonInput
-                    fill="outline"
-                    label="Mot de passe"
-                    labelPlacement="floating"
+              <div className="form-group">
+                <label className="form-label" htmlFor="register-password">
+                  Mot de passe
+                </label>
+                <div className={`input-container ${errors.password ? 'input-error' : ''}`}>
+                  <IonIcon icon={lockClosedOutline} className="input-leading-icon" />
+                  <input
+                    id="register-password"
                     type={showPassword ? 'text' : 'password'}
+                    className="custom-input"
                     value={password}
                     placeholder="Au moins 6 caractères"
                     disabled={isSubmitting}
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                     data-testid="register-password-input"
-                    onIonInput={(e) => setPassword(e.detail.value ?? '')}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
-                  <IonButton
-                    fill="clear"
-                    slot="end"
-                    aria-label={showPassword ? 'Masquer' : 'Afficher'}
+                  <button
+                    type="button"
                     className="password-toggle-btn"
                     onClick={() => setShowPassword(!showPassword)}
-                    type="button"
+                    aria-label={showPassword ? 'Masquer' : 'Afficher'}
                   >
-                    <IonIcon slot="icon-only" icon={showPassword ? eyeOffOutline : eyeOutline} />
-                  </IonButton>
-                </IonItem>
+                    <IonIcon icon={showPassword ? eyeOffOutline : eyeOutline} />
+                  </button>
+                </div>
                 {errors.password && <span className="field-error">{errors.password}</span>}
               </div>
 
               {/* Confirm Password */}
-              <div className="form-field">
-                <IonItem className="register-item" lines="none">
-                  <IonInput
-                    fill="outline"
-                    label="Confirmer le mot de passe"
-                    labelPlacement="floating"
+              <div className="form-group">
+                <label className="form-label" htmlFor="register-confirm-password">
+                  Confirmer le mot de passe
+                </label>
+                <div className={`input-container ${errors.confirmPassword ? 'input-error' : ''}`}>
+                  <IonIcon icon={lockClosedOutline} className="input-leading-icon" />
+                  <input
+                    id="register-confirm-password"
                     type={showConfirmPassword ? 'text' : 'password'}
+                    className="custom-input"
                     value={confirmPassword}
                     placeholder="Répétez votre mot de passe"
                     disabled={isSubmitting}
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                     data-testid="register-confirm-password-input"
-                    onIonInput={(e) => setConfirmPassword(e.detail.value ?? '')}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
-                  <IonButton
-                    fill="clear"
-                    slot="end"
-                    aria-label={showConfirmPassword ? 'Masquer' : 'Afficher'}
+                  <button
+                    type="button"
                     className="password-toggle-btn"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    type="button"
+                    aria-label={showConfirmPassword ? 'Masquer' : 'Afficher'}
                   >
-                    <IonIcon slot="icon-only" icon={showConfirmPassword ? eyeOffOutline : eyeOutline} />
-                  </IonButton>
-                </IonItem>
+                    <IonIcon icon={showConfirmPassword ? eyeOffOutline : eyeOutline} />
+                  </button>
+                </div>
                 {errors.confirmPassword && <span className="field-error">{errors.confirmPassword}</span>}
               </div>
 

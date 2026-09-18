@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import {
   IonPage,
   IonContent,
-  IonItem,
-  IonInput,
   IonButton,
   IonIcon,
   IonSpinner,
 } from '@ionic/react';
 import {
   schoolOutline,
+  mailOutline,
+  lockClosedOutline,
   eyeOutline,
   eyeOffOutline,
   alertCircleOutline,
@@ -58,16 +58,9 @@ export const formatLoginError = (error: unknown): string => {
  * 
  * Architecture & Fonctionnement :
  * 1. Authentification Firebase :
- *    Délègue l'authentification à `auth.service.loginUser()` via le hook `useAuth()`.
- *    Firebase gère la session utilisateur, les tokens JWT et la persistance locale.
- * 
- * 2. Synchronisation du Profil Firestore :
- *    Dès validation de l'identité, `AuthContext` charge automatiquement le profil Firestore
- *    associé à l'UID pour en déduire les droits et rôles ('student' ou 'admin').
- * 
- * 3. Validation Client & UX :
- *    Vérifie la validité des champs avant d'émettre l'appel API réseau pour une
- *    meilleure réactivité et des messages d'erreurs traduits et explicites.
+ *    Utilise `login(email, password)` issu de `AuthContext`.
+ * 2. Formulaire Moderne & Typé :
+ *    Labels explicites, placeholders clairs, icônes d'aide visuelle et toggle pour le mot de passe.
  */
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -147,49 +140,53 @@ const Login: React.FC = () => {
 
             {/* Form */}
             <form onSubmit={handleLogin} className="login-form" noValidate data-testid="login-form">
-              <div className="form-field">
-                <IonItem className="login-item" lines="none">
-                  <IonInput
-                    fill="outline"
-                    label="Adresse Email"
-                    labelPlacement="floating"
+              <div className="form-group">
+                <label className="form-label" htmlFor="login-email">
+                  Adresse Email
+                </label>
+                <div className={`input-container ${errors.email ? 'input-error' : ''}`}>
+                  <IonIcon icon={mailOutline} className="input-leading-icon" />
+                  <input
+                    id="login-email"
                     type="email"
+                    className="custom-input"
                     value={email}
                     placeholder="nom@campus.edu"
                     disabled={isSubmitting}
-                    autocomplete="email"
+                    autoComplete="email"
                     data-testid="login-email-input"
-                    onIonInput={(e) => setEmail(e.detail.value ?? '')}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                </IonItem>
+                </div>
                 {errors.email && <span className="field-error">{errors.email}</span>}
               </div>
 
-              <div className="form-field">
-                <IonItem className="login-item" lines="none">
-                  <IonInput
-                    fill="outline"
-                    label="Mot de passe"
-                    labelPlacement="floating"
+              <div className="form-group">
+                <label className="form-label" htmlFor="login-password">
+                  Mot de passe
+                </label>
+                <div className={`input-container ${errors.password ? 'input-error' : ''}`}>
+                  <IonIcon icon={lockClosedOutline} className="input-leading-icon" />
+                  <input
+                    id="login-password"
                     type={showPassword ? 'text' : 'password'}
+                    className="custom-input"
                     value={password}
                     placeholder="••••••••"
                     disabled={isSubmitting}
-                    autocomplete="current-password"
+                    autoComplete="current-password"
                     data-testid="login-password-input"
-                    onIonInput={(e) => setPassword(e.detail.value ?? '')}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
-                  <IonButton
-                    fill="clear"
-                    slot="end"
-                    aria-label={showPassword ? 'Masquer' : 'Afficher'}
+                  <button
+                    type="button"
                     className="password-toggle-btn"
                     onClick={() => setShowPassword(!showPassword)}
-                    type="button"
+                    aria-label={showPassword ? 'Masquer' : 'Afficher'}
                   >
-                    <IonIcon slot="icon-only" icon={showPassword ? eyeOffOutline : eyeOutline} />
-                  </IonButton>
-                </IonItem>
+                    <IonIcon icon={showPassword ? eyeOffOutline : eyeOutline} />
+                  </button>
+                </div>
                 {errors.password && <span className="field-error">{errors.password}</span>}
               </div>
 
